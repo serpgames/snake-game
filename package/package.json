@@ -1,0 +1,26 @@
+{
+  "name": "@serptest/snake-game",
+  "version": "1.0.0",
+  "description": "Classic Snake game as a reusable JavaScript module",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"No tests yet\""
+  },
+  "keywords": [
+    "snake",
+    "game",
+    "browser",
+    "canvas"
+  ],
+  "author": "SerpTest",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serptest/snake-game.git"
+  },
+  "bugs": {
+    "url": "https://github.com/serptest/snake-game/issues"
+  },
+  "homepage": "https://github.com/serptest/snake-game#readme"
+}
