@@ -1,13 +1,158 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Snake Game Package</title>
-  <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game - SerpTest Games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #0c0c0d;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background-color: #18181b;
+            border-bottom: 1px solid #2d2d2d;
+            padding: 1rem;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00dc82;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        
+        .nav-links a:hover {
+            color: #00dc82;
+        }
+        
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .game-info {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .game-info h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .game-info p {
+            color: #a3a3a3;
+            margin-bottom: 1rem;
+        }
+        
+        .controls {
+            background-color: #18181b;
+            border: 1px solid #2d2d2d;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .controls h3 {
+            margin-bottom: 0.5rem;
+            color: #00dc82;
+        }
+        
+        #game-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .footer {
+            background-color: #18181b;
+            border-top: 1px solid #2d2d2d;
+            padding: 2rem;
+            text-align: center;
+            color: #a3a3a3;
+        }
+        
+        .footer a {
+            color: #00dc82;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-  <h1>Snake Game Package</h1>
-  <p>This repository hosts the Snake game as an NPM package.</p>
-  <p>Install: <code>npm install github:serptest/snake-game</code></p>
-  <p><a href="https://serptest.github.io/play/snake">Play the game</a></p>
+    <header class="header">
+        <div class="header-content">
+            <a href="https://serptest.github.io/" class="logo">🎮 SerpTest Games</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="https://serptest.github.io/">All Games</a></li>
+                    <li><a href="https://github.com/serptest/snake-game">Source Code</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="main">
+        <div class="game-info">
+            <h1>🐍 Snake Game</h1>
+            <p>Classic snake game - eat the red food and grow longer!</p>
+        </div>
+        
+        <div class="controls">
+            <h3>Controls:</h3>
+            <p>⬆️ ⬇️ ⬅️ ➡️ Arrow keys to move</p>
+            <p>SPACE to restart after game over</p>
+        </div>
+        
+        <div id="game-container"></div>
+    </main>
+    
+    <footer class="footer">
+        <p>Part of <a href="https://serptest.github.io/">SerpTest Games</a> | 
+        <a href="https://github.com/serptest/snake-game">View on GitHub</a> |
+        Install: <code>npm install github:serptest/snake-game</code></p>
+    </footer>
+    
+    <script type="module">
+        import SnakeGame from './package/index.js';
+        
+        const container = document.getElementById('game-container');
+        const game = new SnakeGame(container);
+        game.start();
+    </script>
 </body>
 </html>
