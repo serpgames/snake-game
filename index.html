@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Snake - SERP Games</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    body {
+      background: #f9fafb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Public Sans', Arial, sans-serif;
+    }
+    .game-wrapper {
+      text-align: center;
+      padding: 2rem;
+      background: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    }
+    h1 {
+      color: #111827;
+      margin-bottom: 1rem;
+    }
+    canvas {
+      border: 2px solid #e5e7eb;
+      background: #111827;
+      border-radius: 0.375rem;
+    }
+    .score {
+      color: #111827;
+      font-size: 20px;
+      margin: 10px 0;
+      font-weight: 600;
+    }
+    .game-over {
+      color: #dc2626;
+      font-size: 24px;
+      margin: 20px 0;
+      font-weight: 600;
+    }
+    .controls {
+      color: #6b7280;
+      margin-top: 20px;
+      font-size: 0.875rem;
+    }
+  </style>
+  <link href="serpgames-branding.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div class="game-wrapper">
+    <h1>Snake Game</h1>
+    <div class="score">Score: <span id="score">0</span></div>
+    <canvas width="400" height="400" id="game"></canvas>
+    <div class="controls">Use arrow keys to control the snake</div>
+    <div id="gameOver" class="game-over" style="display: none;">Game Over! Press Space to restart</div>
+  </div>
+
+  <script>
+    var canvas = document.getElementById('game');
+    var context = canvas.getContext('2d');
+    var scoreElement = document.getElementById('score');
+    var gameOverElement = document.getElementById('gameOver');
+
+    var grid = 16;
+    var count = 0;
+    var score = 0;
+
+    var snake = {
+      x: 160,
+      y: 160,
+      dx: grid,
+      dy: 0,
+      cells: [],
+      maxCells: 4
+    };
+
+    var apple = {
+      x: 320,
+      y: 320
+    };
+
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    function resetGame() {
+      snake.x = 160;
+      snake.y = 160;
+      snake.cells = [];
+      snake.maxCells = 4;
+      snake.dx = grid;
+      snake.dy = 0;
+      score = 0;
+      scoreElement.textContent = score;
+      gameOverElement.style.display = 'none';
+      
+      apple.x = getRandomInt(0, 25) * grid;
+      apple.y = getRandomInt(0, 25) * grid;
+    }
+
+    function loop() {
+      requestAnimationFrame(loop);
+
+      if (++count < 6) {
+        return;
+      }
+
+      count = 0;
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      snake.x += snake.dx;
+      snake.y += snake.dy;
+
+      if (snake.x < 0) {
+        snake.x = canvas.width - grid;
+      }
+      else if (snake.x >= canvas.width) {
+        snake.x = 0;
+      }
+
+      if (snake.y < 0) {
+        snake.y = canvas.height - grid;
+      }
+      else if (snake.y >= canvas.height) {
+        snake.y = 0;
+      }
+
+      snake.cells.unshift({x: snake.x, y: snake.y});
+
+      if (snake.cells.length > snake.maxCells) {
+        snake.cells.pop();
+      }
+
+      // Draw apple
+      context.fillStyle = '#ff6b6b';
+      context.fillRect(apple.x, apple.y, grid - 2, grid - 2);
+
+      // Draw snake
+      context.fillStyle = '#4ecdc4';
+      snake.cells.forEach(function(cell, index) {
+        context.fillRect(cell.x, cell.y, grid - 2, grid - 2);
+
+        // Check collision with apple
+        if (cell.x === apple.x && cell.y === apple.y) {
+          snake.maxCells++;
+          score += 10;
+          scoreElement.textContent = score;
+
+          apple.x = getRandomInt(0, 25) * grid;
+          apple.y = getRandomInt(0, 25) * grid;
+        }
+
+        // Check collision with self
+        for (var i = index + 1; i < snake.cells.length; i++) {
+          if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+            gameOverElement.style.display = 'block';
+            resetGame();
+          }
+        }
+      });
+    }
+
+    document.addEventListener('keydown', function(e) {
+      // Prevent snake from going back into itself
+      if (e.which === 37 && snake.dx === 0) {
+        snake.dx = -grid;
+        snake.dy = 0;
+      }
+      else if (e.which === 38 && snake.dy === 0) {
+        snake.dy = -grid;
+        snake.dx = 0;
+      }
+      else if (e.which === 39 && snake.dx === 0) {
+        snake.dx = grid;
+        snake.dy = 0;
+      }
+      else if (e.which === 40 && snake.dy === 0) {
+        snake.dy = grid;
+        snake.dx = 0;
+      }
+      else if (e.which === 32 && gameOverElement.style.display !== 'none') {
+        resetGame();
+      }
+    });
+
+    requestAnimationFrame(loop);
+  </script>
+  <script src="serpgames-branding.js"></script>
+</body>
+</html>
